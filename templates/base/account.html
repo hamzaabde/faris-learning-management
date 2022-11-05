@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Account | Faris{% endblock title %}
+
+{% block content %}
+<div class="flex gap-10 mx-20 mt-10">
+  <nav class="shrink-0">
+    <div class="flex flex-col gap-0.5">
+      <a class="font-semibold text-blue-400 hover:text-blue-600 transition" href="{% url 'account' %}">All Courses</a>
+      {% if request.user.is_superuser %}
+      <a class="font-semibold text-blue-400 hover:text-blue-600 transition" href="{% url 'add_course' %}">Add Course</a>
+      <a class="font-semibold text-blue-400 hover:text-blue-600 transition" href="{% url 'users' %}">All Users</a>
+      {% else %}
+      <a class="font-semibold text-blue-400 hover:text-blue-600 transition" href="{% url 'user_courses' %}">Registered
+        Courses</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <article class="grow">
+    <div class="flex flex-wrap gap-4">
+      {% for course in courses %}
+      <div class="p-4 border bg-gray-50">
+        {% if request.user.is_superuser %}
+        <a class="mb-2 font-semibold hover:text-blue-500 transition block"
+          href="{% url 'course_users' course.id %}">{{course.title}}</a>
+        {% else %}
+        <p class="mb-2 font-semibold">{{course.title}}</p>
+        {% endif %}
+
+        {% if request.user in course.users.all and not request.user.is_superuser %}
+        <a class="px-2 py-1 bg-red-500 text-white font-semibold"
+          href="{% url 'unregister_course' course.id %}">Unregister</a>
+        {% elif not request.user.is_superuser %}
+        <a class="px-2 py-1 bg-blue-500 text-white font-semibold"
+          href="{% url 'register_course' course.id %}">Register</a>
+        {% elif request.user.is_superuser %}
+        <strong class="text-gray-700 text-sm mb-1">Users: {{course.users.all.count}}</strong>
+        <div class="flex gap-1">
+          <a class="px-1 py-0.5 bg-blue-500 text-white font-semibold text-sm"
+            href="{% url 'edit_course' course.id %}">Edit</a>
+          <a class="px-1 py-0.5 bg-red-500 text-white font-semibold text-sm"
+            href="{% url 'delete_course' course.id %}">Remove</a>
+        </div>
+        {% endif %}
+      </div>
+      {% empty %}
+      <p class="text-center grow font-bold text-gray-600">no courses</p>
+      {% endfor %}
+    </div>
+  </article>
+</div>
+{% endblock content %}

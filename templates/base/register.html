@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | Faris{% endblock title %}
+
+{% block header %}{% endblock header %}
+
+{% block content %}
+<section class="flex h-screen items-center justify-center">
+  <div class="max-w-xl p-4 bg-gray-50 border">
+    <form method="POST">
+      {% csrf_token %}
+      {{form.as_p}}
+      <button class="bg-blue-500 text-white font-semibold px-2 py-1 mt-4">Register</button>
+    </form>
+  </div>
+</section>
+{% endblock content %}
+
+{% block footer %}{% endblock footer %}

@@ -1,0 +1,18 @@
+<header class="flex justify-between px-20 py-5 border-b-2 border-blue-300">
+  {% if request.user.is_authenticated %}
+  <h1 class="text-4xl font-bold text-gray-700">Welcome Back 👋</h1>
+  <nav>
+    <div class="flex items-center gap-4">
+      <a class="text-blue-500 font-semibold text-lg" href="{% url 'logout' %}">Logout</a>
+    </div>
+  </nav>
+  {% else %}
+  <h1 class="text-4xl font-bold text-gray-700">Hello 😀</h1>
+  <nav>
+    <div class="flex items-center gap-4">
+      <a class="text-blue-500 font-semibold text-lg" href="{% url 'register' %}">Register</a>
+      <a class="text-blue-500 font-semibold text-lg" href="{% url 'login' %}">login</a>
+    </div>
+  </nav>
+  {% endif %}
+</header>
